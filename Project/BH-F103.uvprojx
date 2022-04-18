@@ -525,6 +525,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>HARDWARE</GroupName>
+          <Files>
+            <File>
+              <FileName>JLY_LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\JLY_LED.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>USER</GroupName>
           <Files>
             <File>
@@ -541,6 +551,11 @@
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>JLY_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\JLY_gpio.c</FilePath>
             </File>
           </Files>
         </Group>
