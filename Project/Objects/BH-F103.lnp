@@ -26,6 +26,7 @@
 ".\objects\stm32f10x_usart.o"
 ".\objects\stm32f10x_wwdg.o"
 ".\objects\jly_led.o"
+".\objects\rcc.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\delay.o"
