@@ -558,14 +558,14 @@
               <FilePath>..\User\stm32f10x_it.c</FilePath>
             </File>
             <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\delay.c</FilePath>
-            </File>
-            <File>
               <FileName>JLY_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\JLY_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>Systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Systick.c</FilePath>
             </File>
           </Files>
         </Group>
