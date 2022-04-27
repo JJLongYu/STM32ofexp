@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "jly_gpio.h": "c"
+        "jly_gpio.h": "c",
+        "exti.h": "c",
+        "jly_led.h": "c"
     }
 }

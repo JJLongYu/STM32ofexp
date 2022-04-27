@@ -31,3 +31,4 @@
 .\objects\main.o: ..\User\delay.h
 .\objects\main.o: ..\User\JLY_gpio.h
 .\objects\main.o: ..\User\JLY_LED.h
+.\objects\main.o: ..\Hardware\EXTI.h
