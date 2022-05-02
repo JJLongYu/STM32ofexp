@@ -547,6 +547,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\basic_TIM.c</FilePath>
             </File>
+            <File>
+              <FileName>general_TIM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\general_TIM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
