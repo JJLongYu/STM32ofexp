@@ -28,6 +28,7 @@
 ".\objects\jly_led.o"
 ".\objects\rcc.o"
 ".\objects\exti.o"
+".\objects\basic_tim.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\jly_gpio.o"

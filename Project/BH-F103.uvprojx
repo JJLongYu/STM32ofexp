@@ -542,6 +542,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\EXTI.c</FilePath>
             </File>
+            <File>
+              <FileName>basic_TIM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\basic_TIM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

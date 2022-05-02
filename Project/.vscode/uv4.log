@@ -1,3 +1,8 @@
-Load "d:\\1.MCU\\STM32学习资料整合\\STM32快速入门\\代码\\STM32ofexp\\Project\\Objects\\BH-F103.axf" 
-Error: Flash Download failed  -  Target DLL has been cancelled
-Flash Load finished at 15:02:53
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'E:\Learning APP\keil5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: Code=1560 RO-data=320 RW-data=0 ZI-data=1024  
+FromELF: creating hex file...
+".\Objects\BH-F103.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:02

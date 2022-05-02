@@ -32,3 +32,4 @@
 .\objects\main.o: ..\User\JLY_LED.h
 .\objects\main.o: ..\Hardware\EXTI.h
 .\objects\main.o: ..\User\SysTick.h
+.\objects\main.o: ..\Hardware\basic_TIM.h

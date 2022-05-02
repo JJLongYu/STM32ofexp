@@ -3,12 +3,15 @@
 #include "JLY_LED.h"
 #include "EXTI.h"
 #include "SysTick.h"
+#include "basic_TIM.h"
 
 int main(void)
 {
 	// 来到这里的时候，系统的时钟已经被配置成72M。
 	LED_GPIO_Config();
-	SysTick_Configuration();
+	DBGMCU_Config(DBGMCU_TIM6_STOP,ENABLE);
+	Basci_TIM_Init();
+
 	while (1)
 	{
 		/* code */
