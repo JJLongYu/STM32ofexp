@@ -11,7 +11,7 @@ int main(void)
 	// 来到这里的时候，系统的时钟已经被配置成72M。
 	LED_GPIO_Config();
 	DBGMCU_Config(DBGMCU_TIM2_STOP,ENABLE);
-	External_Clock_Mode_One_Init();
+	Pulse_Width_Measurement();
 
 	while (1)
 	{

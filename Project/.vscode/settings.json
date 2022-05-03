@@ -2,6 +2,7 @@
     "files.associations": {
         "jly_gpio.h": "c",
         "exti.h": "c",
-        "jly_led.h": "c"
+        "jly_led.h": "c",
+        "general_tim.h": "c"
     }
 }
