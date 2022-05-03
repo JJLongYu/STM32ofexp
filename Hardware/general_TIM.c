@@ -34,7 +34,7 @@ void External_Clock_Mode_One_Init(void)
     TIM_ICInitStruct.TIM_ICPolarity = TIM_ICPolarity_Rising;
     TIM_ICInitStruct.TIM_ICSelection = TIM_ICSelection_DirectTI; //在本函数中可以写可以不写，这在PWM输入捕获中会使用
     TIM_ICInitStruct.TIM_ICPrescaler = TIM_ICPSC_DIV1;           //在本函数中可以写可以不写，这在PWM输入捕获中会使用
-    TIM_ICInitStruct.TIM_ICFilter = 0x3;                         //相当于几个沿采样一次，具体看手册，一般为0x00
+    TIM_ICInitStruct.TIM_ICFilter = 0x3;                         //设置一个电平信号持续多长时间才认为是一个有效的信号，时间计算  = （ 1/（72M/TIM_ClockDivision）/0x3所代表的值）*N
     TIM_ICInit(TIM2, &TIM_ICInitStruct);
 #if 0 //使用外部时钟模式1的ETR，使用时记得把IC的结构体配置之类的删除。
     TIM_ETRClockMode1Config(TIM2, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_Inverted, 0);
@@ -98,14 +98,14 @@ void Pulse_Width_Measurement(void)
     TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
     TIM_TimeBaseInitStruct.TIM_Prescaler = 7200 - 1;
-    TIM_TimeBaseInitStruct.TIM_Period = 10000 - 1;
-    TIM_TimeBaseInitStruct.TIM_RepetitionCounter = 0;
+    TIM_TimeBaseInitStruct.TIM_Period = 0xffff;
+    TIM_TimeBaseInitStruct.TIM_RepetitionCounter = 100;
     TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStruct);
 
     TIM_ICInitStruct.TIM_Channel = TIM_Channel_1;
     TIM_ICInitStruct.TIM_ICPolarity = TIM_ICPolarity_Rising;
-    TIM_ICInitStruct.TIM_ICSelection = TIM_ICSelection_DirectTI;
-    TIM_ICInitStruct.TIM_ICFilter = 0x0;
+    TIM_ICInitStruct.TIM_ICSelection = TIM_ICSelection_DirectTI; //一般设置为直连
+    TIM_ICInitStruct.TIM_ICFilter = 0x0;                         //设置一个电平信号持续多长时间才认为是一个有效的信号，时间计算  = （ 1/（72M/TIM_ClockDivision）/0x3所代表的值）*N
     TIM_ICInitStruct.TIM_ICPrescaler = TIM_ICPSC_DIV1;
     TIM_ICInit(TIM2, &TIM_ICInitStruct);
 
@@ -142,7 +142,7 @@ void TIM2_IRQHandler(void)
             TIM_ICUserValueStructure.Capture_FinishFlag = 1;
             TIM_ICUserValueStructure.Capture_Period = 0;
             TIM_OC1PolarityConfig(TIM2, TIM_OCPolarity_High);
-            TIMx_IC_Per = TIM_ICUserValueStructure.Capture_CcrValue + 1 + (TIM_ICUserValueStructure.Capture_Period * 10000);
+            TIMx_IC_Per = TIM_ICUserValueStructure.Capture_CcrValue + 1 + (TIM_ICUserValueStructure.Capture_Period * 0xffff);
         }
     }
 }

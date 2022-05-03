@@ -552,6 +552,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\general_TIM.c</FilePath>
             </File>
+            <File>
+              <FileName>advanced_TIM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\advanced_TIM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -34,3 +34,4 @@
 .\objects\main.o: ..\User\SysTick.h
 .\objects\main.o: ..\Hardware\basic_TIM.h
 .\objects\main.o: ..\Hardware\general_TIM.h
+.\objects\main.o: ..\Hardware\advanced_TIM.h
