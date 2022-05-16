@@ -5,7 +5,8 @@
 
 void External_Clock_Mode_One_Init(void);
 void External_Clock_Mode_Two_Init(void);
-void Pulse_Width_Measurement(void);
+void Pulse_Width_Measurement_Init(void);
+void Output_Compare_Mode_Init(void);
 
 typedef struct capture_struct
 {
@@ -13,6 +14,6 @@ typedef struct capture_struct
     uint8_t Capture_StartFlag;  // 捕获开始标志位
     uint16_t Capture_CcrValue;  // 捕获寄存器的值
     uint16_t Capture_Period;    // 自动重装载寄存器更新标志
-}TIM_ICUserValueTypeDef;
+} TIM_ICUserValueTypeDef;
 
 #endif /* __GENERAL_TIM_H_ */

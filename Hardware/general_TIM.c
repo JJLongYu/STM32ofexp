@@ -73,8 +73,11 @@ void External_Clock_Mode_Two_Init(void)
 
     TIM_Cmd(TIM2, ENABLE);
 }
-
-void Pulse_Width_Measurement(void)
+/**
+ * @brief   捕获方波信号的脉宽
+ *
+ */
+void Pulse_Width_Measurement_Init(void)
 {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
     TIM_ICInitTypeDef TIM_ICInitStruct;
@@ -117,6 +120,10 @@ void Pulse_Width_Measurement(void)
 
 TIM_ICUserValueTypeDef TIM_ICUserValueStructure = {0, 0, 0, 0};
 uint32_t TIMx_IC_Per = 0;
+/**
+ * @brief 捕获脉宽中断服务函数，进行数据获取和转换成脉宽
+ *
+ */
 void TIM2_IRQHandler(void)
 {
     if (TIM_GetITStatus(TIM2, TIM_FLAG_Update) == SET)
@@ -146,3 +153,48 @@ void TIM2_IRQHandler(void)
         }
     }
 }
+/**
+ * @brief 比较输出模式初始化
+ *
+ *
+ */
+void Output_Compare_Mode_Init(void)
+{
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
+    TIM_OCInitTypeDef TIM_OCInitStruct;
+    GPIO_InitTypeDef GPIO_InitStruct;
+    NVIC_InitTypeDef NVIC_InitStruct;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
+
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP; // 配置为复用推挽输出模式
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_InitStruct.NVIC_IRQChannel = TIM5_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStruct);
+
+    TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInitStruct.TIM_Prescaler = 72 - 1;
+    TIM_TimeBaseInitStruct.TIM_Period = 1000 - 1;
+    TIM_TimeBaseInitStruct.TIM_RepetitionCounter = 0x00;
+    TIM_TimeBaseInit(TIM5, &TIM_TimeBaseInitStruct);
+
+    TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
+    TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStruct.TIM_OutputNState = TIM_OutputState_Disable;
+    TIM_OCInitStruct.TIM_Pulse = 500;
+    TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;
+    TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;    //空闲状态的意思是主输出使能是否开启BDTR寄存器的MOE位是否为1（就是有没有使能了输出）
+    TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCNIdleState_Reset; //设定值必须与TIM_OCIdleState相反。
+    TIM_OC1Init(TIM5, &TIM_OCInitStruct);
+    TIM_OC1PreloadConfig(TIM5, TIM_OCPreload_Enable); //一定要使能对应通道的预装载功能
+    TIM_Cmd(TIM5, ENABLE);
+}
+
