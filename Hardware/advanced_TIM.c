@@ -71,3 +71,59 @@ void TIM1_CC_IRQHandler(void)
         Frequency = 0;
     }
 }
+
+void Brake_Complementary_Output_Init(void)
+{
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
+    TIM_OCInitTypeDef TIM_OCInitStruct;
+    GPIO_InitTypeDef GPIO_InitStruct;
+    TIM_BDTRInitTypeDef TIM_BDTRInitStruct;
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_12;
+    GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1; //设置的时tDTS的时间，于IC滤波有关
+    TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInitStruct.TIM_Prescaler = 72 - 1;
+    TIM_TimeBaseInitStruct.TIM_Period = 10 - 1;
+    TIM_TimeBaseInitStruct.TIM_RepetitionCounter = 0;
+    TIM_TimeBaseInit(TIM1, &TIM_TimeBaseInitStruct);
+
+    TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
+    TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStruct.TIM_OutputNState = TIM_OutputNState_Enable;
+    TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;
+    TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;  //互补输出的极性设置要与原来的一致，因为硬件已经反向了不需要软件在设置为反向了。
+    TIM_OCInitStruct.TIM_OCIdleState = TIM_OCIdleState_Reset; //空闲时的状态就是刹车后的电平。
+    TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCNIdleState_Set; // 一定要与TIM_OCIdleState设置相反的极性
+    TIM_OCInitStruct.TIM_Pulse = 5;
+    TIM_OC1Init(TIM1, &TIM_OCInitStruct);
+    TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
+
+    TIM_BDTRInitStruct.TIM_OSSIState = TIM_OSSIState_Enable;
+    TIM_BDTRInitStruct.TIM_OSSRState = TIM_OSSRState_Enable;
+    TIM_BDTRInitStruct.TIM_LOCKLevel = TIM_LOCKLevel_1; //防止软件错误而提供昔日保护，有三个等级，保护BDTR寄存器里面的东西不动
+    TIM_BDTRInitStruct.TIM_DeadTime = 11;
+    TIM_BDTRInitStruct.TIM_Break = TIM_Break_Enable;
+    TIM_BDTRInitStruct.TIM_BreakPolarity = TIM_BreakPolarity_High;
+    TIM_BDTRInitStruct.TIM_AutomaticOutput = TIM_AutomaticOutput_Enable;
+    TIM_BDTRConfig(TIM1, &TIM_BDTRInitStruct);
+
+    TIM_Cmd(TIM1, ENABLE);
+
+    TIM_CtrlPWMOutputs(TIM1, ENABLE); //设置主输出使能 将BDTR寄存器的MOE位置1.此函数只有在高级定时器时需要设置，因为只有高级定时器有死区和刹车功能。
+}

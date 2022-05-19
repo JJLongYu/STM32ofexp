@@ -11,9 +11,8 @@ int main(void)
 {
 	// 来到这里的时候，系统的时钟已经被配置成72M。
 	LED_GPIO_Config();
-	DBGMCU_Config(DBGMCU_TIM5_STOP, ENABLE);
-	Output_Compare_Mode_Init();
-	TIM_SetAutoreload(TIM5, 2000 - 1);
+	DBGMCU_Config(DBGMCU_TIM1_STOP, ENABLE);
+	Brake_Complementary_Output_Init();
 	while (1)
 	{
 		/* code */
